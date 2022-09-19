@@ -40,13 +40,13 @@ def count_pattern(pattern, lst):
     pattern_index = 0
     matches = 0
     for char in lst:
-        if pattern_index == len(pattern):
-            matches += 1
-            pattern_index = 0
-
         if char == pattern[pattern_index]:
             pattern_index += 1
         else:
+            pattern_index = 0
+
+        if pattern_index == len(pattern):
+            matches += 1
             pattern_index = 0
 
     return matches
@@ -54,13 +54,31 @@ def count_pattern(pattern, lst):
 # Problem 2.2: Expression depth
 
 def depth(expr):
-    raise NotImplementedError
+    if type(expr) is list:
+        max_depth = 1
+
+        for i in expr:
+            if type(i) is list:
+                current_depth = 1 + depth(i)
+                if current_depth > max_depth:
+                    max_depth = current_depth
+
+        return max_depth
+    else:
+        return 0
 
 
 # Problem 2.3: Tree indexing
 
 def tree_ref(tree, index):
-    raise NotImplementedError
+    i = 0
+    for node in tree:
+        if index[0] == i:
+            if type(node) is list:
+                return tree_ref(node, index[1:])
+            else:
+                return node
+        i += 1
 
 
 # Section 3: Symbolic algebra
