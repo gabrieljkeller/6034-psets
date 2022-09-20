@@ -74,7 +74,7 @@ def tree_ref(tree, index):
     i = 0
     for node in tree:
         if index[0] == i:
-            if type(node) is list:
+            if type(node) is list and len(index[1:]) > 0:
                 return tree_ref(node, index[1:])
             else:
                 return node
