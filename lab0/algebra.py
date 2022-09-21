@@ -174,5 +174,26 @@ def do_multiply(expr1, expr2):
     '*' will not help you.
     """
     # Replace this with your solution.
-    raise NotImplementedError
+    result = []
+    if type(expr1) is Sum and type(expr2) is Sum:
+        for elem1 in expr1:
+            for elem2 in expr2:
+                result.append(Product([elem1, elem2]).simplify())
+            return Sum(result).simplify()
 
+    elif type(expr1) is Sum and type(expr2) is Product:
+        for elem1 in expr1:
+            result.append(Product([elem1, expr2]).simplify())
+        return Sum(result).simplify()
+
+    elif type(expr1) is Product and type(expr2) is Sum:
+        for elem2 in expr2:
+            result.append(Product([elem2, expr1]).simplify())
+        return Sum(result).simplify()
+
+    elif type(expr1) is Product and type(expr2) is Product:
+        for elem1 in expr1:
+            result.append(elem1)
+        for elem2 in expr2:
+            result.append(elem2)
+        return Product(result)
