@@ -17,7 +17,7 @@ from production import IF, AND, OR, NOT, THEN, forward_chain
 #    2. the consequent
 #    3. both
 
-ANSWER_1 = 'your answer here'
+ANSWER_1 = '2'
 
 # A rule-based system about Monty Python's "Dead Parrot" sketch
 # uses the following rules:
@@ -37,10 +37,10 @@ ANSWER_1 = 'your answer here'
 
 # Will this system produce the datum 'Polly is pining for the
 # fjords'?  Answer 'yes' or 'no'.
-ANSWER_2 = 'your answer here'
+ANSWER_2 = 'no'
 
 # Which rule contains a programming error? Answer '1' or '2'.
-ANSWER_3 = 'your answer here'
+ANSWER_3 = '2'
 
 # If you're uncertain of these answers, look in tests.py for an
 # explanation.
@@ -69,11 +69,11 @@ ANSWER_3 = 'your answer here'
 # what is asked.  After we start the system running, which rule
 # fires first?
 
-ANSWER_4 = 'your answer here'
+ANSWER_4 = '1'
 
 # Which rule fires second?
 
-ANSWER_5 = 'your answer here'
+ANSWER_5 = '0'
 
 
 # Problem 1.3.1: Poker hands
@@ -90,7 +90,7 @@ poker_data = ( 'two-pair beats pair',
 # which poker hands beat which, transitively. For example, it
 # should be able to deduce that a three-of-a-kind beats a pair,
 # because a three-of-a-kind beats two-pair, which beats a pair.
-transitive_rule = IF( AND(), THEN() )
+transitive_rule = IF( AND('(?x) beats (?y)', '(?y) beats (?z)'), THEN('(?x) beats (?z)') )
 
 # You can test your rule like this:
 # print forward_chain([transitive_rule], poker_data)
@@ -111,10 +111,22 @@ TEST_RESULTS_TRANS2 = forward_chain([transitive_rule],
 # them names by assigning them to variables. This way, you'll be
 # able to refer to the rules by name and easily rearrange them if
 # you need to.
-
+is_rule1 = IF('male (?x)', THEN('is (?x) (?x)'))
+is_rule2 = IF('female (?x)', THEN('is (?x) (?x)'))
+sibling_rule = IF(AND('parent (?p) (?c1)', 'parent (?p) (?c2)', NOT('is (?c1) (?c2)')), THEN('sibling (?c1) (?c2)'))
+cousin_rule = IF(AND('parent (?p1) (?x)', 'parent (?p2) (?y)', "sibling (?p1) (?p2)"), THEN('cousin (?x) (?y)'))
+brother_rule = IF(AND('sibling (?k1) (?k2)', 'male (?k1)'), THEN('brother (?k1) (?k2)'))
+sister_rule = IF(AND('sibling (?k1) (?k2)', 'female (?k1)'), THEN('sister (?k1) (?k2)'))
+father_rule = IF(AND('parent (?p) (?k)', 'male (?p)'), THEN('father (?p) (?k)'))
+mother_rule = IF(AND('parent (?p) (?k)', 'female (?p)'), THEN('mother (?p) (?k)'))
+son_rule = IF(AND('parent (?p) (?k)', 'male (?k)'), THEN('son (?k) (?p)'))
+daughter_rule = IF(AND('parent (?p) (?k)', 'female (?k)'), THEN('daughter (?k) (?p)'))
+grandparent_rule = IF(AND('parent (?gp) (?p)', 'parent (?p) (?gc)'), THEN('grandparent (?gp) (?gc)'))
+grandchild_rule = IF(AND('parent (?gp) (?p)', 'parent (?p) (?gc)'), THEN('grandchild (?gc) (?gp)'))
 # Then, put them together into a list in order, and call it
 # family_rules.
-family_rules = [ ]                    # fill me in
+family_rules = [is_rule1, is_rule2, sibling_rule, cousin_rule, brother_rule, sister_rule, father_rule, mother_rule,
+                son_rule, daughter_rule, grandparent_rule, grandchild_rule]
 
 # Some examples to try it on:
 # Note: These are used for testing, so DO NOT CHANGE
@@ -213,7 +225,7 @@ from backchain import backchain_to_goal_tree
 ##; Section 3: Survey ##
 # Please answer these questions inside the double quotes.
 
-HOW_MANY_HOURS_THIS_PSET_TOOK = ''
-WHAT_I_FOUND_INTERESTING = ''
-WHAT_I_FOUND_BORING = ''
+HOW_MANY_HOURS_THIS_PSET_TOOK = '3'
+WHAT_I_FOUND_INTERESTING = 'How this related to other classes/things I\'ve learned (at my internship, what I\'ve heard about logic class, etc.'
+WHAT_I_FOUND_BORING = 'N/A'
 
